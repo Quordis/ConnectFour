@@ -5,10 +5,12 @@ import './App.css'
 import Menu from './components/menu/Menu'
 import Game from './components/game/Game'
 import PrepStage from './components/prepStage/PrepStage'
+import OnlinePrepStage from './components/onlinePrepStage/OnlinePrepStage'
 
 function App() {
   const [playState, setPlayState] = useState(false);
   const [prepStage, setPrepStage] = useState(false);
+  const [onlinePrepStage, setOnlinePrepStage] = useState(false);
   const [player1Name, setPlayer1Name] = useState("Player1");
   const [player2Name, setPlayer2Name] = useState("Player2");
 
@@ -18,6 +20,10 @@ function App() {
 
   const handlePrepStage = () => {
     setPrepStage(prev => !prev);
+  }
+
+  const handleOnlinePrepStage = () => {
+    setOnlinePrepStage(prev => !prev);
   }
 
   const getPlayerNames = (player1, player2) => {
@@ -31,7 +37,8 @@ function App() {
 
   return (
     <>
-      {(!prepStage && !playState) && <Menu startGame={handlePrepStage}/>}
+      {(!prepStage && !playState && !onlinePrepStage) && <Menu startGame={handlePrepStage} startOnlineGame={handleOnlinePrepStage}/>}
+      {onlinePrepStage && <OnlinePrepStage menu={handleOnlinePrepStage}/>}
       {prepStage && <PrepStage goBack={handlePrepStage} setPlayerNames={getPlayerNames} startGame={handlePlayState}/>}
       {playState && <Game player1={player1Name} player2={player2Name} goBack={handlePlayState}/>}
     </>

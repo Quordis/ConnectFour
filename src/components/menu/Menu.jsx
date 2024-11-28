@@ -14,7 +14,7 @@ const Menu = (props) => {
             <h1>Connect<div className='logoDot'>.</div>Four</h1>
             <div className="buttonsContainer">
                 <button id='playLocally-button' onClick={props.startGame}>Play Locally</button>
-                <button onClick={props.startGame}>Play Online</button>
+                <button onClick={props.startOnlineGame}>Play Online</button>
                 <button id='rules-button' onClick={handleRules}>Rules</button>
             </div>
             {showRules && <Rules menu={handleRules}/>}
