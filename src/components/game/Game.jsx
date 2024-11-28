@@ -17,6 +17,7 @@ const Game = (props) => {
     const [winner, setWinner] = useState(null);
     const [firstPlayerPoints, setFirstPlayerPoints] = useState(0);
     const [secondPlayerPoints, setSecondPlayerPoints] = useState(0);
+    const [noResult, setNoResult] = useState(false);
 
     let start = true;
 
@@ -47,16 +48,24 @@ const Game = (props) => {
     
     useEffect(() => {
         const synchBoard = board;
+        let wayToWin = false;
         let player = activePlayer == "Player1" ? 1 : 2;
         let previousPlayer = player == 1 ? 2 : 1;
         for (let j = 6; j >= 0; j--) {
             for (let i = 5; i >= 0; i--) {
                 if (synchBoard[i][j].owner == 0) {
+                    wayToWin = true;
                     synchBoard[i][j].ref?.classList.remove("possibly-p" + previousPlayer);
                     synchBoard[i][j].ref?.classList.add("possibly-p" + player);
                     break;
                 }
             }
+        }
+        if (wayToWin == false) {
+            setWinner("Draw");
+            setActivePlayer(null);
+            setNoResult(true);
+            return handleWinnerState("add");
         }
         setTimer(30);
         let timerSupport = 30;
@@ -167,6 +176,7 @@ const Game = (props) => {
         handleWinnerState("remove");
         setActivePlayer(player);
         setWinner(null);
+        setNoResult(false);
     }
     
     return (
@@ -285,6 +295,7 @@ const Game = (props) => {
                             </div>
                         </div>
                     </div>
+                    {noResult && <div className='draw'>Draw</div>}
                 </div>
             </div>
             <div className='game-bottom'>
