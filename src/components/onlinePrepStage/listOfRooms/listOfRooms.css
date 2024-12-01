@@ -1,0 +1,177 @@
+.listOfRooms {
+    table {
+        padding: 5px;
+        border: 2px solid rgba(18, 18, 18, 0.5);
+        border-radius: 5px;
+        background-color: #2E236C;
+
+        tr {
+            th {
+                padding: 5px 15px;
+                background-color: #17153B;
+                color: white;
+                border-radius: 5px;
+            }
+
+            td {
+                padding: 5px 15px;
+                color: pink;
+                text-align: center;
+
+                button {
+                    padding: 5px 15px;
+                    background-color: rgba(18, 18, 18, 0.5);
+                    border: none;
+                    outline: none;
+                    border-radius: 5px;
+                    color: white;
+                    float: left;
+                    cursor: pointer;
+                }
+
+                img {
+                    width: 15px;
+                    margin: 5px 0px 0px 5px;
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                border-bottom: 1px solid black;
+            }
+        }
+        
+        tfoot {
+            tr {
+                
+                td {
+                    border-top: 1px solid #17153B;
+                    opacity: 0.5;
+                }
+            }
+        }
+    }
+
+    #password-input-container {
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(18, 18, 18, 0.5);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        left: 0;
+        top: 0;
+        animation: password-input 0.4s forwards;
+
+        .password-input-wrap {
+            padding: 15px;
+            background-color: rgba(18, 18, 18, 0.5);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            .input-item {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+                label {
+                    color: white;
+                }
+
+                input {
+                    height: 35px;
+                    padding: 0px 5px;
+                    background-color: #2E236C;
+                    color: pink;
+                    border: 1px solid #2E236C;
+                    outline: none;
+                    border-radius: 5px;
+                    transition: 0.4s;
+                }
+
+                input:focus {
+                    border: 1px solid pink;
+                }
+
+                p {
+                    display: none;
+                }
+
+                p.invalid {
+                    display: block;
+                    font-size: 12px;
+                    color: red;
+                }
+            }
+
+            .btns-container {
+                display: flex;
+                gap: 5px;
+
+                button {
+                    padding: 5px 15px;
+                    border: none;
+                    outline: none;
+                    border-radius: 5px;
+                    font-weight: 500;
+                    cursor: pointer;
+                }
+
+                #btn-backToList {
+                    background-color: #FF8225;
+                }
+
+                #btn-onlinePlay {
+                    background-color: #FFDD66;
+                }
+            }
+        }
+    }
+}
+
+@keyframes password-input {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 500px) {
+    .onlinePrepStage {
+        width: 100%;
+        overflow: hidden;
+    }
+    .listOfRooms {
+        overflow-x: scroll;
+        
+        table {
+            width: 100%;
+            padding: 0px;
+
+            thead {
+                tr {
+                    th {
+                        padding: 2px ;
+                        font-size: 12px;
+                        font-weight: 500;
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    td {
+                        font-size: 10px;
+                    }
+                }
+            }
+        }
+    }
+}

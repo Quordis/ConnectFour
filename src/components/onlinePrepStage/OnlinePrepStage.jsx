@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import './onlinePrepStage.css';
+import ListOfRooms from './listOfRooms/ListOfRooms';
+import MakeARoom from './makeARoom/MakeARoom';
 
 const OnlinePrepStage = (props) => {
     const [playerName, setPlayerName] = useState("");
@@ -38,6 +40,8 @@ const OnlinePrepStage = (props) => {
                 <button id='btn-makeARoom' onClick={handleRoom}>Make a Room</button>
             </form>
             </>}
+            {listStage && <ListOfRooms room={props.room} player2={playerName} />}
+            {roomStage && <MakeARoom player1={playerName} room={props.room} />}
             <div className='buttonsContainer'>
                 <button onClick={(prepStage && props.menu) || (listStage && handleList) || (roomStage && handleRoom)}>Go back</button>
             </div>

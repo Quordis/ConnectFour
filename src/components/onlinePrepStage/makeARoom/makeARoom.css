@@ -1,0 +1,48 @@
+.makeARoom {
+    form {
+        width: 280px;
+        padding: 0px 15px;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+
+        .inputOption {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                color: white;
+            }
+
+            input {
+                height: 50px;
+                padding: 0px 15px;
+                background-color: #2E236C;
+                color: #C8ACD6;
+                font-size: 20px;
+                border: 1px solid #2E236C;
+                outline: none;
+                border-radius: 5px;
+                font-weight: 500;
+                transition: 0.4s;
+            }
+
+            input:focus {
+                border: 1px solid #C8ACD6;
+            }
+        }
+        
+        button {
+            height: 35px;
+            padding: 5px 15px;
+            background-color: #FFDD66;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+    }
+}
