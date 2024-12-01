@@ -1,7 +1,7 @@
 import './listOfRooms.css';
 import { db } from '../../../lib/firebase';
 import { useEffect, useState } from 'react';
-import { collection, doc, getDoc, getDocs, onSnapshot, updateDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, updateDoc } from 'firebase/firestore';
 
 const ListOfRooms = (props) => {
     const [rooms, setRooms] = useState([]);
@@ -10,7 +10,15 @@ const ListOfRooms = (props) => {
     const [currentRoom, setCurrentRoom] = useState(null);
 
     useEffect(() => {
+        const date = Date.now();
         const unsubscribe = onSnapshot(collection(db, "rooms"), (snapshot) => {
+            snapshot.docs.forEach(async (room) => {
+                if (date - room.data().createdAt?.toMillis() > 2 * 60 * 60 * 1000) {
+                    console.log("Usunięto pokój " + room.id);
+                    await deleteDoc(doc(db, "rooms", room.id));
+                }
+            })
+
             const updatedRooms = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()

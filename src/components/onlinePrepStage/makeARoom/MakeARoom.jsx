@@ -1,7 +1,6 @@
 import { collection, deleteDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore';
 import './makeARoom.css';
 import { db } from '../../../lib/firebase';
-import automaticDeletion from './automaticDeletion';
 
 const MakeARoom = (props) => {
     const handleSubmit = async (e) => {
@@ -20,8 +19,6 @@ const MakeARoom = (props) => {
                 password: RoomPassword,
                 createdAt: serverTimestamp()
             })
-
-            automaticDeletion(newRoomRef);
 
             console.log(newRoomRef.id);
 
