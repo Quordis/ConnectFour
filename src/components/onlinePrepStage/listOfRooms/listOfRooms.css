@@ -144,10 +144,6 @@
 }
 
 @media (max-width: 500px) {
-    .onlinePrepStage {
-        width: 100%;
-        overflow: hidden;
-    }
     .listOfRooms {
         overflow-x: scroll;
         
