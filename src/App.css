@@ -8,3 +8,11 @@
   align-items: center;
   justify-content: center;
 }
+
+p.alert {
+  padding: 5px 15px;
+  background-color: rgba(18, 18, 18, 0.5);
+  border-radius: 5px;
+  color: red;
+  text-align: center;
+}

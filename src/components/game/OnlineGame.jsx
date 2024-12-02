@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './game.css';
 import { useEffect } from 'react';
 import checkForWinner from './checkForWinner';
-import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
 const OnlineGame = (props) => {
@@ -44,6 +44,16 @@ const OnlineGame = (props) => {
             start = false;
         }
         const unsubscribe = onSnapshot(doc(db, "rooms", props.id), (snapshot) => {
+            if (!snapshot.exists()) {
+                props.goBack("player left");
+            }
+            if (snapshot.data().reset) {
+                let player = snapshot.data().previousPlayer == 1 ? "player2" : "player1";
+                handleWinnerState("remove");
+                setActivePlayer(player);
+                setWinner(null);
+                setNoResult(false);
+            }
             let column = snapshot.data().previousMoveColumn;
             let row = snapshot.data().previousMoveRow;
             let previousPlayer = snapshot.data().previousPlayer;
@@ -53,14 +63,15 @@ const OnlineGame = (props) => {
             let result = checkForWinner(previousPlayer, board);
 
             if (result) {
-                if (player == 2) {
+                const playerWinner = board[row][column].owner;
+                if (playerWinner == 1) {
                     setFirstPlayerPoints(prev => prev + 1);
                 }
                 else {
                     setSecondPlayerPoints(prev  => prev + 1);
                 }
                 handleWinnerState("add", result);
-                setWinner(activePlayer);
+                setWinner(playerWinner == 1 ? "player1" : "player2");
                 setActivePlayer(null);
             }
             
@@ -171,18 +182,6 @@ const OnlineGame = (props) => {
         }
 
         let result = checkForWinner(player, board);
-
-        if (result) {
-            if (player == 1) {
-                setFirstPlayerPoints(prev => prev + 1);
-            }
-            else {
-                setSecondPlayerPoints(prev  => prev + 1);
-            }
-            handleWinnerState("add", result);
-            setWinner(activePlayer);
-            setActivePlayer(null);
-        }
         
         if (result == false) {
             handleActivePlayer();
@@ -220,12 +219,31 @@ const OnlineGame = (props) => {
         }
     }
 
-    const handleReset = () => {
-        let player = winner == "player1" ? "player2" : "player1";
-        handleWinnerState("remove");
-        setActivePlayer(player);
-        setWinner(null);
-        setNoResult(false);
+    const handleReset = async () => {
+        try {
+            await updateDoc(doc(db, "rooms", props.id), {
+                reset: true,
+                previousMoveRow: -1,
+                previousMoveColumn: -1
+            })
+
+            await updateDoc(doc(db, "rooms", props.id), {
+                reset: false
+            })
+        } 
+        catch (err) {
+            console.log(err);
+        }
+    }
+    
+    const handleLeave = async () => {
+        try {
+            await deleteDoc(doc(db, "rooms", props.id));
+            props.menu();
+        } catch (err) {
+            console.log(err);
+        }
+        props.goBack();
     }
     
     return (
@@ -348,7 +366,7 @@ const OnlineGame = (props) => {
                 </div>
             </div>
             <div className='game-bottom'>
-                <button onClick={props.goBack} id='btn-backtomenu'>Back to menu</button>
+                <button onClick={handleLeave} id='btn-backtomenu'>Back to menu</button>
                 {winner && <button onClick={handleReset} id='btn-resetgame'>Reset Game</button>}
             </div>
         </div>

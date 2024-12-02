@@ -20,6 +20,7 @@ function App() {
   const [roomPlayer, setRoomPlayer] = useState(null);
   const [roomID, setRoomID] = useState(null);
   const [roomInfo, setRoomInfo] = useState(null);
+  const [alert, setAlert] = useState("");
 
   const handlePlayState = () => {
     setPlayState(prev => !prev);
@@ -46,6 +47,20 @@ function App() {
     setRoomInfo(onlineRoom);
   }
 
+  const handleLeaveGame = (message = null) => {
+    setOnlinePlayState(prev => !prev);
+    if (message) {
+      showAlert("Not enough players to continue");
+    }
+  }
+  
+  const showAlert = (message) => {
+    setAlert(message);
+    setTimeout(() => {
+      setAlert("");
+    }, 5000)
+  }
+
   const getPlayerNames = (player1, player2) => {
       if (player1) {
         setPlayer1Name(player1);
@@ -62,7 +77,8 @@ function App() {
       {prepStage && <PrepStage goBack={handlePrepStage} setPlayerNames={getPlayerNames} startGame={handlePlayState}/>}
       {playState && <Game player1={player1Name} player2={player2Name} goBack={handlePlayState}/>}
       {room && <Room menu={handleRoom} player={roomPlayer} id={roomID} startGame={handleOnlinePlayState} />}
-      {onlinePlayState && <OnlineGame currentPlayer={roomPlayer} room={roomInfo} id={roomID} goBack={handleOnlinePlayState} />}
+      {onlinePlayState && <OnlineGame currentPlayer={roomPlayer} room={roomInfo} id={roomID} goBack={handleLeaveGame} />}
+      {alert && <p className='alert'>{alert}</p>}
     </>
   )
 }
