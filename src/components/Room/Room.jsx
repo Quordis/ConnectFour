@@ -22,9 +22,21 @@ const Room = (props) => {
                 };
             }
         });
+        
+        const dots = document.getElementById("dots");
+        let counter = 1;
+        const dotsAppear = setInterval(() => {
+            counter++;
+            if (counter == 4) {
+                counter = 1;
+                dots.innerHTML = "";
+            }
+            dots.innerHTML += ".";
+        }, 500)
     
         return () => {
             unsubscribe()
+            clearInterval(dotsAppear);
         };
     }, []);
 
@@ -59,10 +71,8 @@ const Room = (props) => {
     return (
         <div className='room'>
             <h1>Connect<div className='logoDot'>.</div>Four</h1>
-            <p>{props.player}</p>
-            <p>{props.id}</p>
             {!startGame && <div>
-                <p>Waiting for other player to join</p>
+                <p>Waiting for other player to join<span id='dots'></span></p>
                 <div className='buttonsContainer'>
                     <button onClick={handleLeave}>Go back</button>
                 </div>

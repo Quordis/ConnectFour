@@ -9,6 +9,13 @@
         }
     }
 
+    p {
+        padding: 5px 15px;
+        background-color: #2E236C;
+        border-radius: 5px;
+        color: white;
+    }
+
     .buttonsContainer {
         display: flex;
         padding: 15px;
